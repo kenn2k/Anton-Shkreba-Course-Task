@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Pagination } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRequest } from "ahooks";
 
 import { getAllExhibits } from "../../api/actions/exhibitActions";
@@ -7,6 +7,7 @@ import { PostCard } from "./PostCard";
 import type { Exhibit } from "../../types";
 import { CommentModal } from "../comment/CommentModal";
 import { useState } from "react";
+import { Paginator } from "../UI/Paginator";
 
 export const PostList = () => {
   const [page, setPage] = useState(1);
@@ -25,7 +26,12 @@ export const PostList = () => {
         <CircularProgress />
       </Box>
     );
-  if (error) return <div>Error</div>;
+  if (error)
+    return (
+      <Typography color="error" variant="body2">
+        Failed to load posts.
+      </Typography>
+    );
 
   return (
     <Box
@@ -37,16 +43,16 @@ export const PostList = () => {
         py: 4,
       }}
     >
+      <Paginator
+        page={page}
+        count={exhibits?.lastPage ?? 1}
+        onChange={setPage}
+      />
+
       {exhibits?.data?.map((char: Exhibit) => (
         <PostCard key={char.id} {...char} />
       ))}
 
-      <Pagination
-        page={page}
-        count={5}
-        onChange={(_, value) => setPage(value)}
-        color="primary"
-      />
       <CommentModal />
     </Box>
   );
