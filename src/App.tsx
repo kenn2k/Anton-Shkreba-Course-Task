@@ -5,10 +5,21 @@ import { HomePage } from "./layouts/HomePage";
 import { LoginPage } from "./layouts/LoginPage";
 import { RegisterPage } from "./layouts/RegisterPage";
 import { NewPost } from "./layouts/NewPost";
-import { ProtectedRoute } from "./shared/protected-route";
+import { ProtectedRoute } from "./providers/protected-route";
 import { MainLayout } from "./layouts/MainLayout";
 
+import { useEffect } from "react";
+
+import { initSocket } from "./socket/initSocket";
+import { useAppDispatch } from "./store/hooks";
+
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    initSocket(dispatch);
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/user/login" element={<LoginPage />} />

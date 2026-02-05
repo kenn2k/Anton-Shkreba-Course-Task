@@ -21,14 +21,19 @@ export const PostForm = () => {
     image: Yup.mixed().required("Image is required"),
   });
 
-  const handleFormData = (values: FormPostValues) => {
+  const handleFormData = async (values: FormPostValues) => {
     const formData = new FormData();
     formData.append("description", values.description);
     if (values.image) {
       formData.append("image", values.image);
     }
-    navigate("/", { replace: true });
-    dispatch(createExhibit(formData));
+    try {
+      await dispatch(createExhibit(formData)).unwrap();
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Error", err);
+    }
   };
   return (
     <Formik

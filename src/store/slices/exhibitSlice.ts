@@ -1,24 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { createExhibit } from "../../api/actions/exhibitActions";
+import type { Exhibit } from "../../types/index";
 
 interface ExhibitState {
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
+  exhibits: Exhibit[];
 }
 
 const initialState: ExhibitState = {
   loading: "idle",
   error: null,
+  exhibits: [],
 };
 
 const exhibitSlice = createSlice({
   name: "exhibit",
   initialState,
-  reducers: {},
+  reducers: {
+    addExhibit: (state, action: PayloadAction<Exhibit>) => {
+      state.exhibits.unshift(action.payload);
+    },
+  },
   extraReducers(builder) {
     builder
-      .addCase(createExhibit.fulfilled, (state) => {
+      .addCase(createExhibit.fulfilled, (state, action) => {
         state.loading = "succeeded";
+        state.exhibits.unshift(action.payload);
       })
       .addCase(createExhibit.pending, (state) => {
         state.loading = "pending";
@@ -33,5 +41,5 @@ const exhibitSlice = createSlice({
       });
   },
 });
-
+export const { addExhibit } = exhibitSlice.actions;
 export default exhibitSlice.reducer;

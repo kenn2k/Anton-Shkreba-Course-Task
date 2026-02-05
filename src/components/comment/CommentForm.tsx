@@ -24,6 +24,7 @@ export const CommentForm = ({ exhibitId }: { exhibitId: number }) => {
       })
     );
   };
+
   return (
     <Formik
       initialValues={{ text: "" }}
