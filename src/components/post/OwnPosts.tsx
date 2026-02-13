@@ -1,30 +1,21 @@
 import Grid from "@mui/material/Grid";
-import { useRequest } from "ahooks";
-import { Typography } from "@mui/material";
 
-import { getMyExhibits } from "../../api/actions/exhibitActions";
 import { OwnPostsCard } from "./OwnPostsCard";
 
-import type { Exhibit } from "../../types";
+import type { Exhibit, ExhibitsResponse } from "../../types";
 
-export const OwnPosts = () => {
-  const { data: myExhibits } = useRequest(getMyExhibits);
-  if (!myExhibits?.data?.length) {
-    return (
-      <Typography variant="body2" sx={{ color: "text.secondary", py: 1 }}>
-        No personal posts found
-      </Typography>
-    );
-  }
+interface OwnPostsProps {
+  myExhibits: ExhibitsResponse;
+}
+
+export const OwnPosts = ({ myExhibits }: OwnPostsProps) => {
   return (
-    <>
-      <Grid container spacing={3}>
-        {myExhibits?.data?.map((post: Exhibit) => (
-          <Grid key={post.id}>
-            <OwnPostsCard {...post} />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <Grid container spacing={3}>
+      {myExhibits?.data?.map((post: Exhibit) => (
+        <Grid key={post.id}>
+          <OwnPostsCard {...post} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };

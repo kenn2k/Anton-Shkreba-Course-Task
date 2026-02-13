@@ -19,5 +19,5 @@ export const ProtectedRoute = ({ children }: Props) => {
     return <Navigate to="/user/login" replace />;
   }
 
-  return <>{children}</>;
+  return { children };
 };

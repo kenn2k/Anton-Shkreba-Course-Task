@@ -4,13 +4,13 @@ import { AppBar, Box } from "@mui/material";
 
 export const MainLayout = () => {
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" elevation={2}>
-          <ControlBar />
-        </AppBar>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <AppBar position="static" elevation={2}>
+        <ControlBar />
+      </AppBar>
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        <Outlet />
       </Box>
-      <Outlet />
-    </>
+    </Box>
   );
 };

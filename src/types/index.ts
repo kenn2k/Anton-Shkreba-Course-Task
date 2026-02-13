@@ -35,3 +35,8 @@ export interface Comments {
     username: string;
   };
 }
+
+export interface ExhibitsResponse {
+  data: Exhibit[];
+  lastPage: number;
+}
